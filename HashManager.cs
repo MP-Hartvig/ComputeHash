@@ -18,19 +18,19 @@ namespace ComputeHash
             {
                 MD5 md5 = MD5.Create();
 
-                return Encoding.UTF8.GetString(md5.ComputeHash(tempInput));
+                return Convert.ToBase64String(md5.ComputeHash(tempInput));
             }
             else if (type == "SHA")
             {
                 SHA512 sha = SHA512.Create();
 
-                return Encoding.UTF8.GetString(sha.ComputeHash(tempInput));
+                return Convert.ToBase64String(sha.ComputeHash(tempInput));
             }
             else
             {
                 byte[] hmac = HMACSHA512.HashData(tempKey, tempInput);
 
-                return Encoding.UTF8.GetString(hmac);
+                return Convert.ToBase64String(hmac);
             }
         }
     }

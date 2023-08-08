@@ -9,31 +9,29 @@ namespace ComputeHash
 {
     internal class HashManager
     {
-        public string GetMd5Hash(string input)
+        public string GetHash(string input, string type, string key = "")
         {
-            byte[] temp = Encoding.UTF8.GetBytes(input);
+            byte[] tempInput = Encoding.UTF8.GetBytes(input);
+            byte[] tempKey = Encoding.UTF8.GetBytes(key);
 
-            var md5 = MD5.Create();
+            if (type == "MD5")
+            {
+                MD5 md5 = MD5.Create();
 
-            var hashValue = md5.ComputeHash(temp);
+                return Encoding.UTF8.GetString(md5.ComputeHash(tempInput));
+            }
+            else if (type == "SHA")
+            {
+                SHA512 sha = SHA512.Create();
 
-            return Encoding.UTF8.GetString(hashValue);
+                return Encoding.UTF8.GetString(sha.ComputeHash(tempInput));
+            }
+            else
+            {
+                byte[] hmac = HMACSHA512.HashData(tempKey, tempInput);
+
+                return Encoding.UTF8.GetString(hmac);
+            }
         }
-
-        public string GetShaHash(string input)
-        {
-            byte[] temp = Encoding.UTF8.GetBytes(input);
-
-            var sha = SHA512.Create();
-
-            var hashValue = sha.ComputeHash(temp);
-
-            return Encoding.UTF8.GetString(hashValue);
-        }
-
-        //public string GetHmacHash(string input, string key)
-        //{
-        //    byte[] temp = 
-        //}
     }
 }
